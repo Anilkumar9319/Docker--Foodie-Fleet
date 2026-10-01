@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foodie Fleet · Fresh meals, fast delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* GREEN + WHITE palette */
+    --brand: #16a34a;          /* main green */
+    --brand-2: #22c55e;        /* lighter green */
+    --brand-dark: #15803d;     /* deep green */
+    --brand-soft: #f0fdf4;     /* very light green */
+    --brand-glow: rgba(22, 163, 74, 0.35);
+
+    --ink: #0f1f17;
+    --ink-2: #1f3a2b;
+    --muted: #6b7d72;
+    --line: #e6efe9;
+
+    --surface: #ffffff;
+    --bg: #f8fbf9;
+    --bg-alt: #f1f6f2;
+
+    --success: #16a34a;
+
+    --grad-brand: linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
+    --grad-dark: linear-gradient(135deg, #166534 0%, #0f1f17 100%);
+    --grad-deep: linear-gradient(135deg, #14532d 0%, #0a1a10 100%);
+
+    --radius: 18px;
+    --radius-lg: 26px;
+    --radius-xl: 34px;
+
+    --shadow-xs: 0 2px 8px -2px rgba(15, 31, 23, 0.06);
+    --shadow-sm: 0 8px 20px -8px rgba(15, 31, 23, 0.10);
+    --shadow-md: 0 20px 40px -18px rgba(15, 31, 23, 0.16);
+    --shadow-brand: 0 16px 40px -14px rgba(22, 163, 74, 0.45);
+  }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+
+  body {
+    font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body.no-scroll { overflow: hidden; }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: -30%; right: -15%;
+    width: 70vw; height: 70vw;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.10), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    bottom: -30%; left: -15%;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle, rgba(22, 163, 74, 0.06), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ============================================
+     HEADER — with ALL nav buttons visible
+     ============================================ */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 12px 0;
+    transition: all 0.3s ease;
+  }
+
+  .header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(248, 251, 249, 0.75);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    z-index: -1;
+  }
+
+  .header.scrolled::before {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom-color: var(--line);
+    box-shadow: 0 4px 24px -12px rgba(15, 31, 23, 0.10);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  /* Brand */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    color: var(--ink);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+
+  .brand:hover { transform: translateY(-1px); }
+
+  .brand-mark {
+    width: 38px; height: 38px;
+    background: var(--grad-brand);
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    box-shadow: 0 8px 20px -8px var(--brand-glow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .brand-mark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.35), transparent 60%);
+  }
+
+  .brand em {
+    font-style: normal;
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Nav buttons — all visible on the top */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--line);
+    border-radius: 40px;
+    padding: 5px;
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-link {
+    position: relative;
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--ink-2);
+    background: none;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+  }
+
+  .nav-link i {
+    font-size: 0.8rem;
+    opacity: 0.75;
+    transition: all 0.22s;
+  }
+
+  .nav-link:hover {
+    color: var(--brand);
+    background: var(--brand-soft);
+  }
+
+  .nav-link:hover i { opacity: 1; transform: translateY(-1px); }
+
+  .nav-link.active {
+    color: white;
+    background: var(--grad-dark);
+    box-shadow: 0 6px 14px -6px rgba(15, 31, 23, 0.35);
+  }
+
+  .nav-link.active i { opacity: 1; }
+
+  /* Header actions — Cart + Order now */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .cart-button {
+    position: relative;
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1.5px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.22s ease;
+  }
+
+  .cart-button:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cart-button.active {
+    background: var(--grad-dark);
+    border-color: transparent;
+    color: white;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -6px; right: -6px;
+    min-width: 22px; height: 22px;
+    padding: 0 6px;
+    background: var(--grad-brand);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 800;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg);
+    transform: scale(0);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .cart-badge.show { transform: scale(1); }
+
+  .cart-badge.bump { animation: bump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  @keyframes bump {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.88rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 12px;
+    padding: 11px 22px;
+    transition: all 0.22s ease;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--grad-brand);
+    color: white;
+    box-shadow: 0 10px 24px -10px var(--brand-glow);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px -12px var(--brand-glow);
+  }
+
+  /* ============================================
+     HERO
+     ============================================ */
+  .hero {
+    padding: 140px 0 80px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: white;
+    color: var(--ink-2);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 7px 8px 7px 16px;
+    border-radius: 40px;
+    border: 1px solid var(--line);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .hero-pill .pill-icon {
+    width: 24px; height: 24px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+  }
+
+  .hero-pill .dot {
+    width: 8px; height: 8px;
+    background: var(--brand);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+  }
+
+  .hero h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -2px;
+    margin-bottom: 22px;
+    color: var(--ink);
+  }
+
+  .hero h1 .swash {
+    display: inline-block;
+    position: relative;
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero h1 .swash::after {
+    content: "";
+    position: absolute;
+    bottom: 6px; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, rgba(74,222,128,0.35), rgba(22,163,74,0.35));
+    border-radius: 10px;
+    z-index: -1;
+  }
+
+  .hero-lede {
+    font-size: 1.08rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin-bottom: 34px;
+    line-height: 1.65;
+  }
+
+  .hero-lede strong { color: var(--ink); font-weight: 700; }
+
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 42px;
+  }
+
+  .btn-lg {
+    padding: 16px 30px;
+    font-size: 0.98rem;
+    border-radius: 16px;
+  }
+
+  .btn-outline {
+    background: white;
+    color: var(--ink);
+    border: 1.5px solid var(--line);
+    padding: 16px 28px;
+    font-size: 0.98rem;
+    border-radius: 16px;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  .stat-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--ink);
+    line-height: 1.1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .stat-value .accent { color: var(--brand); }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  /* ============================================
+     HERO VISUAL
+     ============================================ */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 460px;
+  }
+
+  .hero-blob {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(74, 222, 128, 0.4), transparent 55%),
+      radial-gradient(circle at 70% 70%, rgba(22, 163, 74, 0.25), transparent 55%);
+    filter: blur(40px);
+    z-index: 0;
+  }
+
+  .hero-card {
+    position: relative;
+    z-index: 1;
+    background: white;
+    padding: 14px;
+    border-radius: var(--radius-xl);
+    box-shadow:
+      0 40px 80px -30px rgba(15, 31, 23, 0.25),
+      0 0 0 1px rgba(255, 255, 255, 0.5);
+    transform: rotate(-2deg);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .hero-card:hover { transform: rotate(0deg) scale(1.02); }
+
+  .hero-card img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 22px;
+    display: block;
+  }
+
+  .float-chip {
+    position: absolute;
+    background: white;
+    border-radius: 18px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 16px 40px -14px rgba(15, 31, 23, 0.22);
+    z-index: 3;
+    animation: floaty 5s ease-in-out infinite;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .float-chip .chip-icon {
+    width: 38px; height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+    background: var(--grad-brand);
+    flex-shrink: 0;
+    box-shadow: 0 6px 14px -6px var(--brand-glow);
+  }
+
+  .float-chip .chip-title {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+
+  .float-chip .chip-sub {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .chip-1 { top: 20px; left: -20px; animation-delay: 0s; }
+  .chip-2 { bottom: 40px; right: -20px; animation-delay: 1.5s; }
+  .chip-2 .chip-icon { background: var(--grad-deep); }
+
+  .chip-3 {
+    top: 45%; right: -30px;
+    padding: 8px 14px;
+    animation-delay: 0.8s;
+    border-radius: 40px;
+  }
+
+  .chip-3 .chip-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+  }
+
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* ============================================
+     SECTIONS
+     ============================================ */
+  .section {
+    padding: 70px 0;
+    position: relative;
+  }
+
+  .section-head {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 48px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--brand);
+    background: var(--brand-soft);
+    padding: 7px 14px;
+    border-radius: 30px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(22, 163, 74, 0.15);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--brand);
+    border-radius: 50%;
+  }
+
+  .section-head h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .section-head p {
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+
+  /* ============================================
+     MENU
+     ============================================ */
+  .menu-filters {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .chip {
+    background: white;
+    border: 1.5px solid var(--line);
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.22s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chip:hover {
+    color: var(--brand);
+    border-color: rgba(22, 163, 74, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .chip.active {
+    background: var(--grad-dark);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 8px 18px -8px rgba(15, 31, 23, 0.4);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                border-color 0.3s ease;
+    position: relative;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 50px -25px rgba(15, 31, 23, 0.22);
+    border-color: rgba(22, 163, 74, 0.3);
+  }
+
+  .card-media {
+    position: relative;
+    height: 190px;
+    overflow: hidden;
+    background: var(--bg-alt);
+  }
+
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .card:hover .card-media img { transform: scale(1.08); }
+
+  .tag {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    color: var(--brand);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.15);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .tag.green { color: var(--brand-dark); }
+  .tag.red { color: #dc2626; }
+  .tag.purple { color: #7c3aed; }
+  .tag.blue { color: #0284c7; }
+  .tag.amber { color: #d97706; }
+
+  .fav {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a1a1b0;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.22s;
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.15);
+  }
+
+  .fav:hover { color: #ef4444; transform: scale(1.12); }
+  .fav.liked { color: #ef4444; }
+
+  .card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.76rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .card-meta .star {
+    color: #f59e0b;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .card-meta .sep { color: #d4d4dc; }
+
+  .card-body h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .card-body .desc {
+    font-size: 0.86rem;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+
+  .card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+  }
+
+  .price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.6px;
+  }
+
+  .add {
+    background: var(--grad-dark);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 40px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.84rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.22s;
+  }
+
+  .add:hover {
+    background: var(--grad-brand);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -10px var(--brand-glow);
+  }
+
+  .add:active { transform: scale(0.95); }
+
+  .add.added {
+    background: var(--success);
+    box-shadow: 0 10px 20px -10px rgba(22, 163, 74, 0.5);
+  }
+
+  /* ============================================
+     HOW IT WORKS
+     ============================================ */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 22px;
+  }
+
+  .step {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 34px 28px;
+    position: relative;
+    transition: all 0.35s ease;
+    overflow: hidden;
+  }
+
+  .step::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--grad-brand);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .step:hover::before { opacity: 1; }
+
+  .step:hover {
+    border-color: rgba(22, 163, 74, 0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 44px -22px rgba(15, 31, 23, 0.18);
+  }
+
+  .step-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--brand);
+    letter-spacing: 2.5px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-num::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .step-icon {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 22px;
+    transition: all 0.35s ease;
+  }
+
+  .step:hover .step-icon {
+    background: var(--grad-brand);
+    color: white;
+    transform: rotate(-6deg) scale(1.06);
+    box-shadow: 0 12px 24px -10px var(--brand-glow);
+  }
+
+  .step h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .step p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ============================================
+     OFFER BANNER
+     ============================================ */
+  .banner {
+    background: var(--grad-deep);
+    border-radius: var(--radius-xl);
+    padding: 48px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+    margin: 70px 0 20px;
+    box-shadow: 0 40px 80px -30px rgba(15, 31, 23, 0.4);
+  }
+
+  .banner::before {
+    content: "";
+    position: absolute;
+    top: -70%; right: -10%;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(74, 222, 128, 0.35), transparent 60%);
+    filter: blur(30px);
+  }
+
+  .banner-emoji {
+    position: absolute;
+    bottom: -30px;
+    right: 30px;
+    font-size: 7rem;
+    opacity: 0.08;
+    letter-spacing: -8px;
+    pointer-events: none;
+    transform: rotate(-10deg);
+  }
+
+  .banner-text {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+  }
+
+  .banner-text .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(74, 222, 128, 0.18);
+    color: #a7f3d0;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 30px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(74, 222, 128, 0.25);
+  }
+
+  .banner-text h3 {
+    font-family: 'Outfit', sans-serif;
+    color: white;
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.9px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .banner-text p {
+    color: #a7c4b1;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .banner-text p strong {
+    color: #a7f3d0;
+    background: rgba(167, 243, 208, 0.14);
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .banner-btn {
+    position: relative;
+    z-index: 1;
+    background: white;
+    color: var(--ink);
+    border: none;
+    padding: 16px 32px;
+    border-radius: 40px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.25s;
+    box-shadow: 0 16px 30px -14px rgba(0,0,0,0.4);
+  }
+
+  .banner-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    background: var(--brand);
+    color: white;
+    box-shadow: 0 20px 40px -14px var(--brand-glow);
+  }
+
+  /* ============================================
+     TESTIMONIAL
+     ============================================ */
+  .quote {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 40px 44px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin: 40px 0 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote::before {
+    content: "\201C";
+    position: absolute;
+    top: -50px;
+    left: 24px;
+    font-size: 12rem;
+    color: rgba(22, 163, 74, 0.06);
+    font-family: Georgia, serif;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .quote-avatar {
+    position: relative;
+    z-index: 1;
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    background: var(--grad-brand);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7rem;
+    flex-shrink: 0;
+    box-shadow: 0 14px 28px -12px var(--brand-glow);
+    border: 3px solid white;
+  }
+
+  .quote-body {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-width: 240px;
+  }
+
+  .quote-body p {
+    font-size: 1.06rem;
+    font-weight: 500;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+    line-height: 1.65;
+    font-style: italic;
+  }
+
+  .quote-body span {
+    font-size: 0.88rem;
+    color: var(--brand);
+    font-weight: 700;
+  }
+
+  /* ============================================
+     FOOTER
+     ============================================ */
+  .footer {
+    border-top: 1px solid var(--line);
+    padding: 36px 0 30px;
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-weight: 600;
+  }
+
+  .footer-links a:hover { color: var(--brand); }
+
+  /* ============================================
+     CART DRAWER
+     ============================================ */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 31, 23, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 900;
+  }
+
+  .overlay.open { opacity: 1; visibility: visible; }
+
+  .drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 440px;
+    max-width: 94vw;
+    height: 100dvh;
+    background: white;
+    z-index: 950;
+    transform: translateX(100%);
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -30px 0 70px -25px rgba(15, 31, 23, 0.35);
+  }
+
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-head {
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(180deg, white, rgba(248, 251, 249, 0.6));
+  }
+
+  .drawer-head h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+  }
+
+  .drawer-head h2 i {
+    color: var(--brand);
+    background: var(--brand-soft);
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  .drawer-close {
+    width: 38px; height: 38px;
+    border-radius: 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.22s;
+  }
+
+  .drawer-close:hover {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: white;
+    transform: rotate(90deg);
+  }
+
+  .drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 22px;
+    background: var(--bg);
+  }
+
+  .drawer-body::-webkit-scrollbar { width: 5px; }
+  .drawer-body::-webkit-scrollbar-thumb { background: #dce4dd; border-radius: 10px; }
+
+  .empty {
+    text-align: center;
+    padding: 70px 20px;
+  }
+
+  .empty-icon {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: white;
+    border: 1.5px dashed var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #b8c4bb;
+    margin: 0 auto 22px;
+  }
+
+  .empty h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .empty p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+
+  .empty button {
+    background: var(--grad-brand);
+    color: white;
+    border: none;
+    padding: 12px 26px;
+    border-radius: 40px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 10px 22px -10px var(--brand-glow);
+  }
+
+  .empty button:hover { transform: translateY(-2px); }
+
+  .line-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    margin-bottom: 12px;
+    animation: slideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    background: white;
+    transition: border-color 0.2s;
+  }
+
+  .line-item:hover { border-color: rgba(22, 163, 74, 0.3); }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .line-item img {
+    width: 64px; height: 64px;
+    border-radius: 14px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--bg-alt);
+  }
+
+  .line-info { flex: 1; min-width: 0; }
+
+  .line-info h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.94rem;
+    font-weight: 700;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--ink);
+  }
+
+  .line-info .unit {
+    font-size: 0.76rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 9px;
+  }
+
+  .qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    padding: 3px;
+    background: var(--bg);
+  }
+
+  .qty button {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    font-size: 0.7rem;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .qty button:hover {
+    background: var(--brand);
+    color: white;
+  }
+
+  .qty span {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 800;
+    min-width: 18px;
+    text-align: center;
+  }
+
+  .line-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .line-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+
+  .remove {
+    background: none;
+    border: none;
+    color: #c4c4ce;
+    font-size: 0.78rem;
+    cursor: pointer;
+    padding: 2px;
+    transition: color 0.2s;
+  }
+
+  .remove:hover { color: #ef4444; }
+
+  .drawer-foot {
+    border-top: 1px solid var(--line);
+    padding: 20px 24px 24px;
+    background: white;
+  }
+
+  .sum-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .sum-row.grand {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    padding-top: 14px;
+    margin-top: 10px;
+    border-top: 1.5px dashed var(--line);
+    margin-bottom: 18px;
+  }
+
+  .checkout {
+    width: 100%;
+    background: var(--grad-brand);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 0.98rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 14px 30px -12px var(--brand-glow);
+    transition: all 0.22s;
+  }
+
+  .checkout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px -12px var(--brand-glow);
+  }
+
+  /* ============================================
+     TOAST
+     ============================================ */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    background: var(--ink);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 20px 50px -14px rgba(15, 31, 23, 0.5);
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 1000;
+    max-width: 90vw;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .toast i {
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.15);
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 1100px) {
+    .nav-link { padding: 9px 12px; font-size: 0.82rem; }
+    .nav-link span.label { display: none; }
+    .nav-link i { font-size: 0.9rem; }
+    .nav-link { padding: 9px 14px; }
+  }
+
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; padding: 120px 0 60px; gap: 40px; }
+    .hero-visual { min-height: 380px; }
+    .hero-card img { height: 340px; }
+    .banner { padding: 38px 30px; }
+  }
+
+  @media (max-width: 720px) {
+    .header-inner { gap: 10px; }
+    .brand { font-size: 1.15rem; }
+    .brand-mark { width: 34px; height: 34px; font-size: 0.85rem; }
+    .nav { gap: 2px; padding: 4px; }
+    .nav-link { padding: 8px 10px; font-size: 0.78rem; }
+    .nav-link i { font-size: 0.8rem; }
+    .btn-primary { padding: 10px 14px; font-size: 0.8rem; }
+    .btn-primary span.label { display: none; }
+    .cart-button { width: 40px; height: 40px; }
+  }
+
+  @media (max-width: 560px) {
+    .nav-link span.label { display: none; }
+    .nav-link { padding: 8px 12px; }
+    .hero { padding: 108px 0 40px; }
+    .hero-stats { gap: 22px; flex-wrap: wrap; }
+    .stat-value { font-size: 1.4rem; }
+    .hero-card img { height: 260px; }
+    .float-chip { padding: 8px 12px; gap: 8px; }
+    .float-chip .chip-icon { width: 30px; height: 30px; font-size: 0.75rem; }
+    .float-chip .chip-title { font-size: 0.72rem; }
+    .chip-1 { top: 10px; left: -8px; }
+    .chip-2 { bottom: 20px; right: -8px; }
+    .chip-3 { display: none; }
+    .drawer { width: 100%; }
+    .quote { padding: 28px; }
+    .banner { padding: 32px 24px; }
+    .banner-btn { padding: 14px 24px; font-size: 0.88rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER — Menu · How it works · Offers · Cart · Order now
+     ============================================================ -->
+<header class="header" id="header">
+  <div class="container header-inner">
+
+    <a class="brand" onclick="scrollToSection('top')">
+      <div class="brand-mark"><i class="fas fa-leaf"></i></div>
+      Foodie<em>Fleet</em>
+    </a>
+
+    <!-- ALL top nav buttons -->
+    <nav class="nav" id="navMenu">
+      <button class="nav-link" data-section="menu" onclick="scrollToSection('menu')">
+        <i class="fas fa-book-open"></i> <span class="label">Menu</span>
+      </button>
+      <button class="nav-link" data-section="how" onclick="scrollToSection('how')">
+        <i class="fas fa-route"></i> <span class="label">How it works</span>
+      </button>
+      <button class="nav-link" data-section="offer" onclick="scrollToSection('offer')">
+        <i class="fas fa-tag"></i> <span class="label">Offers</span>
+      </button>
+    </nav>
+
+    <!-- Cart icon + Order now -->
+    <div class="header-actions">
+      <button class="cart-button" id="cartBtn" onclick="openCart()" aria-label="Open cart">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+      <button class="btn btn-primary" onclick="openCart()">
+        <i class="fas fa-bolt"></i> <span class="label">Order now</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<main class="container" id="top">
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="hero-pill">
+        <span class="pill-icon"><i class="fas fa-leaf"></i></span>
+        Fresh & fast delivery
+        <span class="dot"></span>
+      </span>
+
+      <h1>Fresh meals, <span class="swash">fleet</span> on wheels.</h1>
+      <p class="hero-lede">
+        From local kitchens to your doorstep — <strong>hot, delicious, and delivered in record time.</strong>
+        Join 10,000+ happy foodies who never wait.
+      </p>
+
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" onclick="scrollToSection('menu')">
+          <i class="fas fa-utensils"></i> Browse menu
+        </button>
+        <button class="btn btn-outline" onclick="scrollToSection('how')">
+          <i class="fas fa-play"></i> How it works
+        </button>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-value">4.9<span class="accent">★</span></div>
+          <div class="stat-label">Average rating</div>
+        </div>
+        <div>
+          <div class="stat-value">25<span class="accent">m</span></div>
+          <div class="stat-label">Avg. delivery</div>
+        </div>
+        <div>
+          <div class="stat-value">150<span class="accent">+</span></div>
+          <div class="stat-label">Partner kitchens</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-blob"></div>
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1526367790999-0150786686a2?w=800&auto=format&fit=crop&q=80" alt="Food delivery">
+      </div>
+
+      <div class="float-chip chip-1">
+        <div class="chip-icon"><i class="fas fa-motorcycle"></i></div>
+        <div>
+          <div class="chip-title">Rider on the way</div>
+          <div class="chip-sub">Arriving in 4 min</div>
+        </div>
+      </div>
+
+      <div class="float-chip chip-2">
+        <div class="chip-icon"><i class="fas fa-star"></i></div>
+        <div>
+          <div class="chip-title">4.9 rating</div>
+          <div class="chip-sub">12k+ reviews</div>
+        </div>
+      </div>
+
+      <div class="float-chip chip-3">
+        <div class="chip-icon"><i class="fas fa-check"></i></div>
+        <span style="font-size:0.78rem;font-weight:700;">Delivered</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MENU — 8 dishes
+       ============================================================ -->
+  <section class="section" id="menu">
+    <div class="section-head">
+      <span class="eyebrow">Today's menu</span>
+      <h2>Handpicked from the fleet</h2>
+      <p>Fresh from our partner kitchens — tap add and we'll fly it to you.</p>
+    </div>
+
+    <div class="menu-filters">
+      <button class="chip active" onclick="filterMenu(this, 'all')">All dishes</button>
+      <button class="chip" onclick="filterMenu(this, 'burger')">Burgers</button>
+      <button class="chip" onclick="filterMenu(this, 'healthy')">Healthy</button>
+      <button class="chip" onclick="filterMenu(this, 'pizza')">Pizza</button>
+      <button class="chip" onclick="filterMenu(this, 'asian')">Asian</button>
+      <button class="chip" onclick="filterMenu(this, 'dessert')">Desserts</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid"></div>
+  </section>
+
+  <!-- ============================================================
+       HOW IT WORKS
+       ============================================================ -->
+  <section class="section" id="how">
+    <div class="section-head">
+      <span class="eyebrow">Simple process</span>
+      <h2>How it works</h2>
+      <p>Three quick steps between you and your next favorite meal.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">STEP 01</div>
+        <div class="step-icon"><i class="fas fa-hand-pointer"></i></div>
+        <h3>Pick your dish</h3>
+        <p>Browse the fleet menu and add your favorites to the cart in one tap.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 02</div>
+        <div class="step-icon"><i class="fas fa-credit-card"></i></div>
+        <h3>Checkout fast</h3>
+        <p>Pay securely in seconds with card, wallet, or cash on delivery.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 03</div>
+        <div class="step-icon"><i class="fas fa-motorcycle"></i></div>
+        <h3>Track & enjoy</h3>
+        <p>Live-track your rider and get notified the moment they arrive.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       OFFER
+       ============================================================ -->
+  <div class="banner" id="offer">
+    <div class="banner-emoji">🥗🍔🍕🍜🍰</div>
+    <div class="banner-text">
+      <span class="kicker"><i class="fas fa-gift"></i> Limited time</span>
+      <h3>First order? Get 30% off 🎉</h3>
+      <p>Use code <strong>FLEET30</strong> at checkout — valid for new customers only.</p>
+    </div>
+    <button class="banner-btn" onclick="claimOffer()">
+      Claim offer <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+
+  <!-- ============================================================
+       TESTIMONIAL
+       ============================================================ -->
+  <div class="quote">
+    <div class="quote-avatar"><i class="fas fa-user"></i></div>
+    <div class="quote-body">
+      <p>“The fastest delivery I've ever experienced. Food was piping hot and the rider was super friendly. Foodie Fleet is my go-to!”</p>
+      <span>— Ananya S., regular foodie</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div>© 2025 Foodie Fleet — fresh meals, fleet feet.</div>
+    <div class="footer-links">
+      <a onclick="showToast('Privacy policy coming soon')">Privacy</a>
+      <a onclick="showToast('Terms of service coming soon')">Terms</a>
+      <a onclick="showToast('Become a partner kitchen!')">Partners</a>
+      <a onclick="showToast('We are hiring riders 🚴')">Careers</a>
+    </div>
+  </footer>
+</main>
+
+<!-- ============================================================
+     CART DRAWER
+     ============================================================ -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <h2><i class="fas fa-shopping-bag"></i> Your cart</h2>
+    <button class="drawer-close" onclick="closeCart()" aria-label="Close cart">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot" style="display:none;">
+    <div class="sum-row"><span>Subtotal</span><span id="sumSubtotal">$0.00</span></div>
+    <div class="sum-row"><span>Delivery</span><span id="sumDelivery">$2.99</span></div>
+    <div class="sum-row grand"><span>Total</span><span id="sumTotal">$0.00</span></div>
+    <button class="checkout" onclick="checkout()">
+      <i class="fas fa-lock"></i> Proceed to checkout
+    </button>
+  </div>
+</aside>
+
+<!-- ============================================================
+     TOAST
+     ============================================================ -->
+<div class="toast" id="toast">
+  <i class="fas fa-check"></i>
+  <span id="toastMsg">Added to cart</span>
+</div>
+
+<script>
+/* ============================================================
+   MENU DATA — 8 dishes
+   ============================================================ */
+const MENU = [
+  { id: 'burger', name: 'Double Smash Burger', price: 12.90, cat: 'burger',
+    desc: 'Two juicy patties, melted cheddar, house sauce, brioche bun.',
+    img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=80',
+    tag: 'Bestseller', tagClass: '', rating: '4.9', time: '20-25 min' },
+
+  { id: 'salad', name: 'Rainbow Power Bowl', price: 10.50, cat: 'healthy',
+    desc: 'Quinoa, avocado, roasted chickpeas, kale, lemon-tahini drizzle.',
+    img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&auto=format&fit=crop&q=80',
+    tag: 'Vegan', tagClass: 'green', rating: '4.8', time: '15-20 min' },
+
+  { id: 'pizza', name: 'Wood-Fired Margherita', price: 14.00, cat: 'pizza',
+    desc: 'San Marzano tomato, fresh mozzarella, basil, extra-virgin olive oil.',
+    img: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500&auto=format&fit=crop&q=80',
+    tag: 'Classic', tagClass: 'amber', rating: '4.9', time: '18-22 min' },
+
+  { id: 'sushi', name: 'Salmon Avocado Roll', price: 16.20, cat: 'asian',
+    desc: 'Fresh salmon, creamy avocado, cucumber, sesame, soy dip.',
+    img: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=500&auto=format&fit=crop&q=80',
+    tag: 'New', tagClass: 'purple', rating: '4.7', time: '22-28 min' },
+
+  { id: 'ramen', name: 'Tonkotsu Ramen', price: 15.80, cat: 'asian',
+    desc: 'Rich pork broth, tender chashu, soft egg, fresh noodles.',
+    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500&auto=format&fit=crop&q=80',
+    tag: 'Popular', tagClass: '', rating: '4.9', time: '20-25 min' },
+
+  { id: 'tacos', name: 'Street Corn Tacos', price: 11.40, cat: 'healthy',
+    desc: 'Grilled corn, black beans, cilantro, lime crema, soft tortillas.',
+    img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&auto=format&fit=crop&q=80',
+    tag: 'Vegan', tagClass: 'green', rating: '4.8', time: '15-20 min' },
+
+  { id: 'pasta', name: 'Truffle Mushroom Pasta', price: 13.60, cat: 'healthy',
+    desc: 'Al dente pasta, wild mushrooms, truffle oil, parmesan shavings.',
+    img: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80',
+    tag: 'Chef\'s pick', tagClass: 'blue', rating: '4.9', time: '18-22 min' },
+
+  { id: 'cake', name: 'Chocolate Lava Cake', price: 8.90, cat: 'dessert',
+    desc: 'Warm molten chocolate center, vanilla bean ice cream on top.',
+    img: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&auto=format&fit=crop&q=80',
+    tag: 'Sweet', tagClass: 'purple', rating: '5.0', time: '12-15 min' },
+];
+
+let cart = [];
+
+/* ============================================================
+   RENDER MENU
+   ============================================================ */
+function renderMenu(filter = 'all') {
+  const grid = document.getElementById('menuGrid');
+  const items = filter === 'all' ? MENU : MENU.filter(m => m.cat === filter);
+  grid.innerHTML = items.map(item => `
+    <article class="card" data-cat="${item.cat}">
+      <div class="card-media">
+        <span class="tag ${item.tagClass}">${item.tag}</span>
+        <button class="fav" onclick="toggleFav(this)" aria-label="Favorite">
+          <i class="fas fa-heart"></i>
+        </button>
+        <img src="${item.img}" alt="${item.name}" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="star"><i class="fas fa-star"></i> ${item.rating}</span>
+          <span class="sep">•</span>
+          <span>${item.time}</span>
+        </div>
+        <h3>${item.name}</h3>
+        <p class="desc">${item.desc}</p>
+        <div class="card-foot">
+          <span class="price">$${item.price.toFixed(2)}</span>
+          <button class="add" onclick="addToCart('${item.id}', this)">
+            <i class="fas fa-plus"></i> Add
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function filterMenu(btn, cat) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu(cat);
+}
+
+/* ============================================================
+   SCROLL — works for every top nav button
+   ============================================================ */
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const headerOffset = 100;
+  const top = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+/* Highlight nav button based on scroll position */
+const SECTION_IDS = ['menu', 'how', 'offer'];
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  header.classList.toggle('scrolled', window.scrollY > 20);
+
+  let current = '';
+  SECTION_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= 200 && rect.bottom > 200) current = id;
+  });
+  document.querySelectorAll('.nav-link').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.section === current);
+  });
+}, { passive: true });
+
+/* ============================================================
+   CART
+   ============================================================ */
+function addToCart(id, btnEl) {
+  const existing = cart.find(i => i.id === id);
+  if (existing) existing.qty++;
+  else cart.push({ id, qty: 1 });
+
+  if (btnEl) {
+    const original = btnEl.innerHTML;
+    btnEl.classList.add('added');
+    btnEl.innerHTML = '<i class="fas fa-check"></i> Added';
+    setTimeout(() => {
+      btnEl.classList.remove('added');
+      btnEl.innerHTML = original;
+    }, 1200);
+  }
+
+  const item = MENU.find(m => m.id === id);
+  showToast(`${item.name} added to cart`);
+  updateCart();
+  bumpBadge();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  updateCart();
+}
+
+function removeItem(id) {
+  cart = cart.filter(i => i.id !== id);
+  updateCart();
+}
+
+function bumpBadge() {
+  const badge = document.getElementById('cartBadge');
+  badge.classList.remove('bump');
+  void badge.offsetWidth;
+  badge.classList.add('bump');
+}
+
+function updateCart() {
+  const badge = document.getElementById('cartBadge');
+  const body = document.getElementById('drawerBody');
+  const foot = document.getElementById('drawerFoot');
+  const cartBtn = document.getElementById('cartBtn');
+
+  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+  badge.textContent = totalQty;
+  badge.classList.toggle('show', totalQty > 0);
+  cartBtn.classList.toggle('active', totalQty > 0);
+
+  if (cart.length === 0) {
+    body.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon"><i class="fas fa-shopping-bag"></i></div>
+        <h3>Your cart is empty</h3>
+        <p>Add some delicious dishes from the menu.</p>
+        <button onclick="closeCart(); scrollToSection('menu');">Browse menu</button>
+      </div>`;
+    foot.style.display = 'none';
+    return;
+  }
+
+  body.innerHTML = cart.map(({ id, qty }) => {
+    const item = MENU.find(m => m.id === id);
+    return `
+      <div class="line-item">
+        <img src="${item.img}" alt="${item.name}">
+        <div class="line-info">
+          <h4>${item.name}</h4>
+          <div class="unit">$${item.price.toFixed(2)} each</div>
+          <div class="qty">
+            <button onclick="changeQty('${id}', -1)"><i class="fas fa-minus"></i></button>
+            <span>${qty}</span>
+            <button onclick="changeQty('${id}', 1)"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        <div class="line-right">
+          <span class="line-price">$${(item.price * qty).toFixed(2)}</span>
+          <button class="remove" onclick="removeItem('${id}')" aria-label="Remove">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+
+  const subtotal = cart.reduce((s, { id, qty }) => {
+    const item = MENU.find(m => m.id === id);
+    return s + item.price * qty;
+  }, 0);
+  const delivery = 2.99;
+  const total = subtotal + delivery;
+
+  document.getElementById('sumSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+  document.getElementById('sumDelivery').textContent = `$${delivery.toFixed(2)}`;
+  document.getElementById('sumTotal').textContent = `$${total.toFixed(2)}`;
+  foot.style.display = 'block';
+}
+
+/* ============================================================
+   DRAWER
+   ============================================================ */
+function openCart() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  document.body.classList.add('no-scroll');
+}
+
+function closeCart() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  document.body.classList.remove('no-scroll');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeCart();
+});
+
+/* ============================================================
+   FAVORITE · OFFER · CHECKOUT · TOAST
+   ============================================================ */
+function toggleFav(btn) {
+  btn.classList.toggle('liked');
+  showToast(btn.classList.contains('liked') ? '❤️ Added to favorites' : 'Removed from favorites');
+}
+
+function claimOffer() {
+  const done = () => showToast('Code FLEET30 copied to clipboard!');
+  const fail = () => showToast('Use code FLEET30 at checkout 🎉');
+  if (navigator.clipboard) navigator.clipboard.writeText('FLEET30').then(done).catch(fail);
+  else fail();
+}
+
+function checkout() {
+  const total = cart.reduce((s, { id, qty }) => {
+    const item = MENU.find(m => m.id === id);
+    return s + item.price * qty;
+  }, 0) + 2.99;
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  showToast(`🎉 Order placed! ${count} items · $${total.toFixed(2)}`);
+  cart = [];
+  updateCart();
+  setTimeout(closeCart, 800);
+}
+
+let toastTimer;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderMenu();
+updateCart();
+</script>
+
+</body>
+</html>
